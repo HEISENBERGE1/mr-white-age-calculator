@@ -1,23 +1,124 @@
+/* ===== Reset ===== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
+/* ===== Background ===== */
 body {
-  font-family: Arial;
-  background: #f2f2f2;
+  font-family: 'Segoe UI', Tahoma, sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+
+  background:
+    linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
+    url("heisenberge.jpg");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
+/* ===== Glass Card ===== */
 .container {
-  background: white;
-  padding: 25px;
-  border-radius: 10px;
-  width: 300px;
+  width: 360px;
+  padding: 32px;
+
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.55);
+
   text-align: center;
 }
 
-button {
-  margin-top: 15px;
-  padding: 10px;
+/* ===== Title ===== */
+h1 {
+  color: #ffffff;
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 22px;
+}
+
+/* ===== Label ===== */
+label {
+  color: #eaeaea;
+  font-size: 14px;
+  display: block;
+  margin-bottom: 8px;
+}
+
+/* ===== Date Input ===== */
+input[type="date"] {
   width: 100%;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: none;
+  outline: none;
+
+  font-size: 15px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #111;
+}
+
+/* ===== Button ===== */
+button {
+  margin-top: 18px;
+  width: 100%;
+  padding: 14px;
+#year { flex: 0 0 110px !important; }
+
+  border: none;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: 600;
+
+  color: #ffffff;
+  background: linear-gradient(135deg, #00c6ff, #0072ff);
   cursor: pointer;
+
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(0, 114, 255, 0.55);
+}
+
+/* ===== Result ===== */
+#result {
+  margin-top: 18px;
+  font-size: 18px;
+  font-weight: 500;
+  color: #ffffff;
+}
+
+/* Fix year input size */
+#year {
+  width: 110px;
+  flex: none;
+  /* === FINAL YEAR INPUT FIX === */
+.inputs {
+  display: flex;
+}
+
+.inputs input {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+#year {
+  flex: 0 0 110px;
+}
+
 }

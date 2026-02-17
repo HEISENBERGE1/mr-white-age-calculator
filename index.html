@@ -1,22 +1,210 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Age Calculator</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Breaking Bad Age Calculator</title>
+
+<style>
+/* ===== Reset ===== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
+/* ===== Background ===== */
+body {
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background:
+    linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
+    url("heisenberge.jpg");
+
+  background-size: cover;
+  background-position: center;
+}
+
+/* ===== Card ===== */
+.container {
+  width: 380px;
+  padding: 32px;
+  text-align: center;
+
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(16px);
+  border-radius: 22px;
+  border: 1px solid rgba(255,255,255,0.25);
+  box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+}
+
+h1 {
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+label {
+  color: #eee;
+  font-size: 14px;
+  display: block;
+  margin-bottom: 6px;
+}
+
+/* ===== Inputs ===== */
+.inputs {
+  display: flex;
+  gap: 10px;
+}
+
+.inputs input {
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  font-size: 15px;
+  outline: none;
+  text-align: center;
+  min-width: 0;
+}
+
+/* Day & Month */
+#day, #month {
+  flex: 1 1 0;
+}
+
+/* Year — PERFECT FIT */
+#year {
+  flex: 0 0 110px;
+}
+
+/* ===== Remove number arrows ===== */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* ===== Button ===== */
+button {
+  margin-top: 20px;
+  width: 100%;
+  padding: 14px;
+  border-radius: 16px;
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+
+  background: linear-gradient(135deg, #00c6ff, #0072ff);
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(0,114,255,0.6);
+}
+
+/* ===== Jesse Screen ===== */
+#jesseScreen {
+  position: fixed;
+  inset: 0;
+  display: none;
+
+  background:
+    linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)),
+    url("jessie.jpg");
+
+  background-size: cover;
+  background-position: center;
+
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  z-index: 999;
+}
+
+#fullAge {
+  color: #fff;
+  font-size: 22px;
+  line-height: 1.6;
+  max-width: 80%;
+}
+</style>
 </head>
+
 <body>
 
-  <div class="container">
-    <h1>Age Calculator</h1>
+<div class="container">
+  <h1>Age Calculator</h1>
 
-    <label>Enter your Date of Birth:</label>
-    <input type="date" id="dob">
-
-    <button onclick="calculateAge()">Calculate Age</button>
-
-    <p id="result"></p>
+  <label>Date of Birth</label>
+  <div class="inputs">
+    <input type="number" id="day" placeholder="DD" min="1" max="31">
+    <input type="number" id="month" placeholder="MM" min="1" max="12">
+    <input type="number" id="year" placeholder="YYYY">
   </div>
 
-  <script src="script.js"></script>
+  <button onclick="calculateAge()">Calculate Age</button>
+</div>
+
+<div id="jesseScreen" onclick="this.style.display='none'">
+  <div id="fullAge"></div>
+</div>
+
+<script>
+function calculateAge() {
+  const d = parseInt(day.value);
+  const m = parseInt(month.value) - 1;
+  const y = parseInt(year.value);
+
+  if (!d || !month.value || !y) {
+    alert("Fill all fields");
+    return;
+  }
+
+  const birth = new Date(y, m, d);
+  const now = new Date();
+  const diff = now - birth;
+
+  const minutes = Math.floor(diff / (1000 * 60));
+  const hours = Math.floor(diff / (1000 * 60 * 60));
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const weeks = Math.floor(days / 7);
+
+  let years = now.getFullYear() - birth.getFullYear();
+  let months = now.getMonth() - birth.getMonth();
+
+  if (months < 0 || (months === 0 && now.getDate() < birth.getDate())) {
+    years--;
+    months += 12;
+  }
+
+  fullAge.innerHTML = `
+    🧪 Yeah Science!<br><br>
+    <b>${years}</b> Years<br>
+    <b>${months}</b> Months<br>
+    <b>${weeks}</b> Weeks<br>
+    <b>${days}</b> Days<br>
+    <b>${hours}</b> Hours<br>
+    <b>${minutes}</b> Minutes Old<br><br>
+    <i>"Yo Mr. White!"</i><br><br>
+    <small>(click anywhere to go back)</small>
+  `;
+
+  jesseScreen.style.display = "flex";
+}
+</script>
+
 </body>
 </html>
+

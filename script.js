@@ -1,21 +1,39 @@
 function calculateAge() {
-  let dob = document.getElementById("dob").value;
-
+  const dob = document.getElementById("dob").value;
   if (!dob) {
-    document.getElementById("result").innerText = "Please select your DOB";
+    alert("Select your Date of Birth");
     return;
   }
 
-  let birthDate = new Date(dob);
-  let today = new Date();
+  const birth = new Date(dob);
+  const now = new Date();
 
-  let age = today.getFullYear() - birthDate.getFullYear();
-  let monthDiff = today.getMonth() - birthDate.getMonth();
+  const diffMs = now - birth;
 
-  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-    age--;
+  const minutes = Math.floor(diffMs / (1000 * 60));
+  const hours   = Math.floor(diffMs / (1000 * 60 * 60));
+  const days    = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  const weeks   = Math.floor(days / 7);
+
+  let years  = now.getFullYear() - birth.getFullYear();
+  let months = now.getMonth() - birth.getMonth();
+
+  if (months < 0 || (months === 0 && now.getDate() < birth.getDate())) {
+    years--;
+    months += 12;
   }
 
-  document.getElementById("result").innerText =
-    "Your age is " + age + " years";
+  const output = `
+    🧪 Yeah Science!<br><br>
+    <b>${years}</b> Years<br>
+    <b>${months}</b> Months<br>
+    <b>${weeks}</b> Weeks<br>
+    <b>${days}</b> Days<br>
+    <b>${hours}</b> Hours<br>
+    <b>${minutes}</b> Minutes Old<br><br>
+    <i>"Yo Mr. White!"</i>
+  `;
+
+  document.getElementById("fullAge").innerHTML = output;
+  document.getElementById("jesseScreen").style.display = "flex";
 }
