@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Breaking Bad Age Calculator</title>
 
 <style>
@@ -33,11 +32,10 @@ body {
   background-position: center;
 }
 
-/* ===== Calculator Card ===== */
+/* ===== Card ===== */
 .container {
   width: 380px;
-  max-width: 92%;
-  padding: 28px;
+  padding: 32px;
   text-align: center;
 
   background: rgba(255,255,255,0.15);
@@ -49,21 +47,20 @@ body {
 
 h1 {
   color: #fff;
-  margin-bottom: 18px;
-  font-size: 26px;
+  margin-bottom: 20px;
 }
 
 label {
   color: #eee;
   font-size: 14px;
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 /* ===== Inputs ===== */
 .inputs {
   display: flex;
-  gap: 8px;
+  gap: 10px;
 }
 
 .inputs input {
@@ -76,98 +73,71 @@ label {
   min-width: 0;
 }
 
+/* Day & Month */
 #day, #month {
   flex: 1 1 0;
 }
 
+/* Year — PERFECT FIT */
 #year {
   flex: 0 0 110px;
 }
 
-/* Remove number arrows */
+/* ===== Remove number arrows ===== */
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
 input[type="number"] {
   -moz-appearance: textfield;
 }
 
 /* ===== Button ===== */
 button {
-  margin-top: 18px;
+  margin-top: 20px;
   width: 100%;
   padding: 14px;
   border-radius: 16px;
   border: none;
   font-size: 16px;
   font-weight: 600;
-  color: white;
+  color: #fff;
   cursor: pointer;
+
   background: linear-gradient(135deg, #00c6ff, #0072ff);
 }
 
-/* ===== Video Screen ===== */
-#videoScreen {
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(0,114,255,0.6);
+}
+
+/* ===== Jesse Screen ===== */
+#jesseScreen {
   position: fixed;
   inset: 0;
   display: none;
+
+  background:
+    linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)),
+    url("jessie.jpg");
+
+  background-size: cover;
+  background-position: center;
+
+  justify-content: center;
+  align-items: center;
+  text-align: center;
   z-index: 999;
 }
 
-#videoScreen video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-#overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.65);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-  text-align: center;
-}
-
 #fullAge {
-  color: white;
-  font-size: 20px;
+  color: #fff;
+  font-size: 22px;
   line-height: 1.6;
-  max-width: 90%;
-}
-
-/* ===== MOBILE FIX ===== */
-@media (max-width: 480px) {
-
-  h1 {
-    font-size: 22px;
-  }
-
-  .container {
-    padding: 22px;
-  }
-
-  .inputs {
-    flex-direction: column;
-  }
-
-  #day, #month, #year {
-    flex: none;
-    width: 100%;
-  }
-
-  button {
-    font-size: 15px;
-    padding: 13px;
-  }
-
-  #fullAge {
-    font-size: 18px;
-  }
+  max-width: 80%;
 }
 </style>
 </head>
@@ -179,25 +149,19 @@ button {
 
   <label>Date of Birth</label>
   <div class="inputs">
-    <input type="number" id="day" placeholder="DD">
-    <input type="number" id="month" placeholder="MM">
+    <input type="number" id="day" placeholder="DD" min="1" max="31">
+    <input type="number" id="month" placeholder="MM" min="1" max="12">
     <input type="number" id="year" placeholder="YYYY">
   </div>
 
   <button onclick="calculateAge()">Calculate Age</button>
 </div>
 
-<div id="videoScreen" onclick="closeVideo()">
-  <video id="jessieVideo" src="jessie.mp4" muted playsinline></video>
-  <div id="overlay">
-    <div id="fullAge"></div>
-  </div>
+<div id="jesseScreen" onclick="this.style.display='none'">
+  <div id="fullAge"></div>
 </div>
 
 <script>
-const video = document.getElementById("jessieVideo");
-const container = document.querySelector(".container");
-
 function calculateAge() {
   const d = parseInt(day.value);
   const m = parseInt(month.value) - 1;
@@ -219,8 +183,10 @@ function calculateAge() {
 
   let years = now.getFullYear() - birth.getFullYear();
   let months = now.getMonth() - birth.getMonth();
+
   if (months < 0 || (months === 0 && now.getDate() < birth.getDate())) {
-    years--; months += 12;
+    years--;
+    months += 12;
   }
 
   fullAge.innerHTML = `
@@ -231,21 +197,14 @@ function calculateAge() {
     <b>${days}</b> Days<br>
     <b>${hours}</b> Hours<br>
     <b>${minutes}</b> Minutes Old<br><br>
-    <small>(tap anywhere to go back)</small>
+    <i>"Yo Mr. White!"</i><br><br>
+    <small>(click anywhere to go back)</small>
   `;
 
-  container.style.display = "none";
-  videoScreen.style.display = "block";
-  video.currentTime = 0;
-  video.play();
-}
-
-function closeVideo() {
-  video.pause();
-  videoScreen.style.display = "none";
-  container.style.display = "block";
+  jesseScreen.style.display = "flex";
 }
 </script>
 
 </body>
 </html>
+
